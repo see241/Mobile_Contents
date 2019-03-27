@@ -56,7 +56,7 @@ public class SortManager : MonoBehaviour
         for (int i = 0; i < totalCard; i++)
         {
             transform.GetChild(i).GetComponent<CardControl>().Sort(i, totalCard);
-            yield return new WaitForFixedUpdate();
+            yield return null;
         }
     }
 }

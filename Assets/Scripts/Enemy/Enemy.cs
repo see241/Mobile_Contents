@@ -23,12 +23,13 @@ public class Enemy : MonoBehaviour
     public GameObject armourBar;
     public bool isFaded;
     private List<ActionTable> actions = new List<ActionTable>();
+    private Animator animator;
 
     // Use this for initialization
     private void Start()
     {
         SetActionTable();
-        Debug.Log(actions[0].turn + actions[0].key + actions[0].value);
+        animator = transform.GetChild(0).gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -117,6 +118,7 @@ public class Enemy : MonoBehaviour
             case "Attack":
 
                 Player.instance.GetDamage(actions[curTurn].value, particle);
+                animator.SetTrigger("Attack");
                 break;
 
             case "GetArmour":

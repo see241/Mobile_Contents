@@ -28,7 +28,6 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -62,12 +61,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\GuideText.cs" />
     <Compile Include="Assets\Scripts\Card\CardBase.cs" />
     <Compile Include="Assets\Scripts\Card\CardControl.cs" />
+    <Compile Include="Assets\Scripts\Card\Do_SomeThing.cs" />
     <Compile Include="Assets\Scripts\Card\Player.cs" />
     <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyController.cs" />
     <Compile Include="Assets\Scripts\Manager\CashManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\DeckManager.cs" />
     <Compile Include="Assets\Scripts\Manager\MsgQueue.cs" />
     <Compile Include="Assets\Scripts\Manager\SortManager.cs" />
     <Compile Include="Assets\Scripts\Manager\TouchManager.cs" />

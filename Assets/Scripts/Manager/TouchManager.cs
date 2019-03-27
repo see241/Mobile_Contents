@@ -59,12 +59,14 @@ public class TouchManager : MonoBehaviour
                     }
                     if (touch.phase == TouchPhase.Ended)
                     {
-                        if (Player.instance.curMana - touchTarget.GetComponent<CardBase>().cost >= 0)
+                        if (Player.instance.curMana - touchTarget.GetComponent<CardBase>().cardCost >= 0)
                         {
                             CastCard();
                         }
                         else
                         {
+                            Player.instance.WarningBattery();
+                            Player.instance.Talk("마나가 부족해");
                             CastCancle();
                         }
                     }
@@ -80,7 +82,7 @@ public class TouchManager : MonoBehaviour
                 {
                     if (hit.collider.tag == "Enemy")
                     {
-                        touchTarget.GetComponent<CardBase>().CastCard();
+                        touchTarget.GetComponent<CardBase>().CastCard(hit.collider.transform.parent.gameObject);
                         CastEnd();
                     }
                 }
@@ -98,6 +100,7 @@ public class TouchManager : MonoBehaviour
         {
             if (!touchTarget.GetComponent<CardBase>().isAllAttack)
             {
+                GuideText.instance.Guide("대상을 지정하세요");
                 touchTarget.transform.position = Vector2.zero;
                 isCasting = true;
             }
@@ -125,6 +128,7 @@ public class TouchManager : MonoBehaviour
             touchTarget.GetComponent<CardControl>().ReturnOrigin();
             touchTarget.GetComponent<CardControl>().SetPhase("isPopUp", false);
             touchTarget = null;
+            GuideText.instance.DeleteText();
         }
     }
 
@@ -134,6 +138,7 @@ public class TouchManager : MonoBehaviour
         Destroy(touchTarget.gameObject);
         isCasting = false;
         isTouching = false;
+        GuideText.instance.DeleteText();
         SortManager.instance.Sort_Start();
     }
 }

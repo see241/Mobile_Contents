@@ -8,10 +8,11 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public int curMana;
 
+    private int curTurn;
+
     [HideInInspector]
     public float curArmour;
 
-    [HideInInspector]
     public float curHp;
 
     public int maxMana;
@@ -22,10 +23,12 @@ public class Player : MonoBehaviour
     public Slider hpBar;
 
     [Header("UI")]
-    public Text manaText;
-
     public Image manaFill;
+
+    public Image manaBackGround;
     public Image turnImage;
+    public GameObject dialogBox;
+    private bool isTalking;
     public static Player instance;
 
     private void Awake()
@@ -49,7 +52,6 @@ public class Player : MonoBehaviour
     {
         hpBar.value = curHp / maxHp;
         manaFill.fillAmount = (float)curMana / (float)maxMana;
-        manaText.text = curMana + "/" + maxMana;
     }
 
     public void GetDamage(float ad, ParticleSystem particle)
@@ -57,7 +59,7 @@ public class Player : MonoBehaviour
         StartCoroutine(HealthLess(ad));
         ParticleSystem pt = Instantiate(particle);
         pt.transform.position = transform.position + new Vector3(0, 0, -1);
-        Destroy(pt, pt.duration + 2f);
+        Destroy(pt.gameObject, pt.duration + 2f);
     }
 
     public void StartPlayerTurn()
@@ -66,6 +68,9 @@ public class Player : MonoBehaviour
         curMana = maxMana;
         TouchManager.instance.isMyTurn = true;
         turnImage.GetComponent<Animator>().SetTrigger("UI_PopUp");
+        if (curTurn > 0)
+            MsgQueue.instance.Push_Message(DeckManager.instance.DrawCard);
+        curTurn++;
     }
 
     private void EndPlayerTurn()
@@ -82,6 +87,11 @@ public class Player : MonoBehaviour
             TouchManager.instance.isMyTurn = false;
             MsgQueue.instance.Push_Message(EndPlayerTurn);
         }
+    }
+
+    public void WarningBattery()
+    {
+        StartCoroutine(_WarningBattery());
     }
 
     private IEnumerator HealthLess(float damage)
@@ -103,5 +113,43 @@ public class Player : MonoBehaviour
             }
             yield return new WaitForSeconds(0.01f);
         }
+    }
+
+    public void Talk(string str)
+    {
+        if (!isTalking)
+        {
+            StartCoroutine(_Talk(str));
+        }
+    }
+
+    public IEnumerator _WarningBattery()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            manaBackGround.color = Color.red;
+            yield return new WaitForSeconds(0.1f);
+            manaBackGround.color = Color.white;
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    private IEnumerator _Talk(string str)
+    {
+        isTalking = true;
+        dialogBox.transform.GetChild(0).GetComponent<TextMesh>().text = str;
+        for (int i = 0; i < 30; i++)
+        {
+            dialogBox.transform.localScale = Vector3.Lerp(dialogBox.transform.localScale, Vector3.one * 0.6f, 0.25f);
+            yield return new WaitForSeconds(0.02f);
+        }
+        for (int i = 0; i < 30; i++)
+        {
+            dialogBox.transform.localScale = Vector3.Lerp(dialogBox.transform.localScale, Vector3.zero, 0.25f);
+            yield return new WaitForSeconds(0.02f);
+        }
+        dialogBox.transform.localScale = Vector3.zero;
+        dialogBox.transform.GetChild(0).GetComponent<TextMesh>().text = null;
+        isTalking = false;
     }
 }

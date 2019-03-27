@@ -41,7 +41,6 @@ public class CashManager : MonoBehaviour
             TextAsset textAsset = obj[i] as TextAsset;
             char[] ch = { '#', ',' };
             string[] k = textAsset.text.Split('\n')[0].Split(ch);
-            Debug.Log(k[2]);
             SetData(k[2], textAsset);
         }
     }
