@@ -100,7 +100,7 @@ public class TouchManager : MonoBehaviour
         {
             if (!touchTarget.GetComponent<CardBase>().isAllAttack)
             {
-                GuideText.instance.Guide("대상을 지정하세요");
+                GuideText.instance.Guide("Select_Target ");
                 touchTarget.transform.position = Vector2.zero;
                 isCasting = true;
             }

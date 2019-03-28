@@ -56,10 +56,8 @@ public class CardBase : MonoBehaviour
     {
         CardSetting();
         enemyController = GameObject.Find("EnemyController");
-        if (state == CardState.Effect)
-        {
-            go_name.color = Color.black;
-        }
+
+        go_name.color = Color.black;
     }
 
     // Update is called once per frame
@@ -69,6 +67,7 @@ public class CardBase : MonoBehaviour
 
     private void GetArmour()
     {
+        Player.instance.GetArmour(armour);
     }
 
     private void AttackEnemy()

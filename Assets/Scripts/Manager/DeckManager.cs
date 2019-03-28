@@ -28,10 +28,17 @@ public class DeckManager : MonoBehaviour
     {
         if (transform.GetChildCount() > 0)
         {
-            int rand = Random.Range(0, transform.GetChildCount());
-            GameObject randTarget = transform.GetChild(rand).gameObject;
-            randTarget.transform.parent = GameObject.Find("SortManager").transform;
-            StartCoroutine(MoveCenter(randTarget));
+            if (SortManager.instance.transform.GetChildCount() <= 9)
+            {
+                int rand = Random.Range(0, transform.GetChildCount());
+                GameObject randTarget = transform.GetChild(rand).gameObject;
+                randTarget.transform.parent = GameObject.Find("SortManager").transform;
+                StartCoroutine(MoveCenter(randTarget));
+            }
+            else
+            {
+                Player.instance.Talk("카드가 가득 찼어");
+            }
         }
         else
         {
@@ -43,9 +50,12 @@ public class DeckManager : MonoBehaviour
     {
         for (int i = 0; i < v - 1; i++)
         {
-            MsgQueue.instance.Push_Message(NoSortDraw, 0.25f);
-            if (transform.GetChildCount() <= 1)
+            if (transform.GetChildCount() <= 1 || SortManager.instance.transform.GetChildCount() >= 8)
+            {
+                Player.instance.Talk("카드가 가득 찼어");
                 break;
+            }
+            MsgQueue.instance.Push_Message(NoSortDraw, 0.25f);
         }
         MsgQueue.instance.Push_Message(DrawCard, 0.25f);
     }

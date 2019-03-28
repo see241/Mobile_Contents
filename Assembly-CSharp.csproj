@@ -61,7 +61,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\GuideText.cs" />
     <Compile Include="Assets\Scripts\Card\CardBase.cs" />
     <Compile Include="Assets\Scripts\Card\CardControl.cs" />
     <Compile Include="Assets\Scripts\Card\Do_SomeThing.cs" />
@@ -70,10 +69,10 @@
     <Compile Include="Assets\Scripts\Enemy\EnemyController.cs" />
     <Compile Include="Assets\Scripts\Manager\CashManager.cs" />
     <Compile Include="Assets\Scripts\Manager\DeckManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\GuideText.cs" />
     <Compile Include="Assets\Scripts\Manager\MsgQueue.cs" />
     <Compile Include="Assets\Scripts\Manager\SortManager.cs" />
     <Compile Include="Assets\Scripts\Manager\TouchManager.cs" />
-    <None Include="Assets\basic Pixel Art Particles\readme.txt" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/YOO/Desktop/BackUp/Mobile_Contents-master/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

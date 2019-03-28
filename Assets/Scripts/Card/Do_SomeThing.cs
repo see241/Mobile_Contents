@@ -30,15 +30,6 @@ public class Do_SomeThing : MonoBehaviour
 
     public void CallEffect(string mathodName, int v, GameObject particleTarget = null, ParticleSystem particle = null)
     {
-        if (particle != null)
-        {
-            ParticleSystem ptc = Instantiate(particle);
-            ptc.transform.position = particleTarget.transform.position;
-            ptc.transform.position = new Vector3(ptc.transform.position.x, ptc.transform.position.y, -5);
-
-            ptc.Play();
-            Destroy(ptc, ptc.duration + ptc.startLifetime);
-        }
         value = v;
         Invoke(mathodName, 0f);
     }

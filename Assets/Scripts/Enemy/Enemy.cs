@@ -111,7 +111,7 @@ public class Enemy : MonoBehaviour
 
     public void Action()
     {
-        int curTurn = EnemyController.instance.curTurn;
+        int curTurn = EnemyController.instance.curTurn % actions.Count;
 
         switch (actions[curTurn].key)
         {

@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
 
     public float damage;
     public Slider hpBar;
+    public GameObject armourBar;
+    private bool isFaded;
 
     [Header("UI")]
     public Image manaFill;
@@ -52,19 +54,52 @@ public class Player : MonoBehaviour
     {
         hpBar.value = curHp / maxHp;
         manaFill.fillAmount = (float)curMana / (float)maxMana;
+
+        if (curArmour > 0)
+        {
+            armourBar.transform.GetChild(0).GetComponent<TextMesh>().text = curArmour.ToString();
+        }
+        else
+        {
+            if (!isFaded)
+            {
+                StartCoroutine(FadeOut());
+                isFaded = true;
+            }
+        }
     }
 
     public void GetDamage(float ad, ParticleSystem particle)
     {
-        StartCoroutine(HealthLess(ad));
+        if (curArmour > 0)
+        {
+            curArmour -= ad;
+        }
+        else
+        {
+            StartCoroutine(HealthLess(ad));
+        }
+        if (curArmour < 0)
+        {
+            StartCoroutine(HealthLess(-curArmour));
+        }
         ParticleSystem pt = Instantiate(particle);
         pt.transform.position = transform.position + new Vector3(0, 0, -1);
         Destroy(pt.gameObject, pt.duration + 2f);
     }
 
+    public void GetArmour(int v)
+    {
+        curArmour += v;
+        StartCoroutine(FadeUp());
+        isFaded = false;
+    }
+
     public void StartPlayerTurn()
     {
         Debug.Log("플레이어 턴 시작");
+        StartCoroutine(FadeOut());
+        curArmour = 0;
         curMana = maxMana;
         TouchManager.instance.isMyTurn = true;
         turnImage.GetComponent<Animator>().SetTrigger("UI_PopUp");
@@ -151,5 +186,26 @@ public class Player : MonoBehaviour
         dialogBox.transform.localScale = Vector3.zero;
         dialogBox.transform.GetChild(0).GetComponent<TextMesh>().text = null;
         isTalking = false;
+    }
+
+    private IEnumerator FadeUp()
+    {
+        while (armourBar.transform.localScale.y < 0.6f)
+        {
+            armourBar.transform.localScale = new Vector3(armourBar.transform.localScale.x, armourBar.transform.localScale.y + 0.03f, armourBar.transform.localScale.z);
+            yield return new WaitForSeconds(0.005f);
+        }
+
+        armourBar.transform.localScale = new Vector3(armourBar.transform.localScale.x, 0.6f, armourBar.transform.localScale.z);
+    }
+
+    private IEnumerator FadeOut()
+    {
+        while (armourBar.transform.localScale.y > 0)
+        {
+            armourBar.transform.localScale = new Vector3(armourBar.transform.localScale.x, armourBar.transform.localScale.y - 0.03f, armourBar.transform.localScale.z);
+            yield return new WaitForSeconds(0.005f);
+        }
+        armourBar.transform.localScale = new Vector3(armourBar.transform.localScale.x, 0f, armourBar.transform.localScale.z);
     }
 }
