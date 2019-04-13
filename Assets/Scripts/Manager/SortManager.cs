@@ -17,7 +17,6 @@ public class SortManager : MonoBehaviour
 
     private void Start()
     {
-        Sort_Start();
     }
 
     // Update is called once per frame

@@ -27,7 +27,6 @@ public class MsgQueue : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-        StartCoroutine(MessageQueu());
     }
 
     // Update is called once per frame
@@ -42,7 +41,7 @@ public class MsgQueue : MonoBehaviour
         dels.Enqueue(msg);
     }
 
-    private IEnumerator MessageQueu()
+    public IEnumerator MessageQueu()
     {
         while (true)
         {

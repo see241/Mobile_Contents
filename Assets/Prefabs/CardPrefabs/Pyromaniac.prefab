@@ -11,22 +11,6 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1648439325191356}
   m_IsPrefabParent: 1
---- !u!1 &1129171254648594
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4225608800592994}
-  - component: {fileID: 212759235582867888}
-  m_Layer: 0
-  m_Name: Card_Attack_b
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1149713990382464
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,6 +74,7 @@ GameObject:
   - component: {fileID: 114970745701268066}
   - component: {fileID: 65549265209204338}
   - component: {fileID: 95538194380069548}
+  - component: {fileID: 114873677452672532}
   m_Layer: 0
   m_Name: Pyromaniac
   m_TagString: Card
@@ -114,19 +99,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4225608800592994
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1129171254648594}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.02}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4636196263807486}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4373418031264158
 Transform:
   m_ObjectHideFlags: 1
@@ -173,14 +145,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1648439325191356}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.55, y: 0.5, z: 1.1}
+  m_LocalPosition: {x: -0.6499996, y: -0.44000006, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4504243994971932}
   - {fileID: 4610351642344434}
   - {fileID: 4373418031264158}
   - {fileID: 4853101360311428}
-  - {fileID: 4225608800592994}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -312,7 +283,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.67, y: 4.78, z: 0.2}
+  m_Size: {x: 3.8, y: 4.9, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95538194380069548
 Animator:
@@ -407,16 +378,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardName: Pyromaniac
-  cardText: "Attack All \nenemy\nto 3 Damage"
+  cardText: "Attack_All \nenemy\nto_3_Damage"
   cardImage: {fileID: 21300000, guid: e4a81b3b94a22e243b3bafdd16139431, type: 3}
-  damage: 3
+  damage: 100
   armour: 0
   cardCost: 1
   isAllAttack: 1
   state: 2
   particle: {fileID: 198237804300507544, guid: b05d24c27b8c34046a6477652801c235, type: 2}
   sprites:
-  - {fileID: 21300000, guid: b8c173d1c92668a4393f8702a163724a, type: 3}
+  - {fileID: 21300000, guid: fdc0db0081697074a9db50c800da5d0d, type: 3}
   - {fileID: 21300000, guid: fbc5f8ab888de314085c6d98f9e8a2f9, type: 3}
   - {fileID: 21300000, guid: e86f389bde5f2344a9381bf97ea4cc31, type: 3}
   effectName: 
@@ -426,6 +397,19 @@ MonoBehaviour:
   go_text: {fileID: 102256228007463708}
   go_cost: {fileID: 102123362794838208}
   go_Image: {fileID: 1442322456254286}
+--- !u!114 &114873677452672532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1648439325191356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec7c59f328e12424995fe78947b45a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 1648439325191356}
+  cost: 4
 --- !u!114 &114970745701268066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -440,6 +424,7 @@ MonoBehaviour:
   originPos: {x: 3.2, y: -5, z: 0}
   cardIndex: 0
   totalCard: 5
+  isHolding: 0
 --- !u!212 &212180593456646100
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -526,51 +511,6 @@ SpriteRenderer:
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 3.98, y: 4.95}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
---- !u!212 &212759235582867888
-SpriteRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1129171254648594}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9d35c5ca573bb9d49b7a9aa2fe4812fb, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 3.97, y: 4.98}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

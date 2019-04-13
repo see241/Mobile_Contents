@@ -52,7 +52,8 @@ public class CardBase : MonoBehaviour
     }
 
     // Use this for initialization
-    private void Start()
+
+    private void OnEnable()
     {
         CardSetting();
         enemyController = GameObject.Find("EnemyController");
@@ -139,5 +140,8 @@ public class CardBase : MonoBehaviour
         GetComponent<CardControl>().SetPhase("isUsed", true);
         yield return new WaitForSeconds(0.25f);
         transform.position = transform.parent.transform.position;
+        GetComponent<Animator>().SetBool("isUsed", false);
+        GetComponent<Animator>().SetBool("isPopUpf", false);
+        transform.localScale = new Vector3(1, 1, 1);
     }
 }

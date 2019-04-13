@@ -40,6 +40,11 @@ public class Enemy : MonoBehaviour
             Dead();
     }
 
+    private void OnDestroy()
+    {
+        EnemyController.instance.enemyCount--;
+    }
+
     public void GetDamage(int ad, ParticleSystem particle)
     {
         if (curArmour > 0)

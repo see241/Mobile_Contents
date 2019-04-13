@@ -41,7 +41,6 @@ public class Player : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-        StartPlayerTurn();
     }
 
     // Update is called once per frame
@@ -101,10 +100,10 @@ public class Player : MonoBehaviour
         StartCoroutine(FadeOut());
         curArmour = 0;
         curMana = maxMana;
-        TouchManager.instance.isMyTurn = true;
-        turnImage.GetComponent<Animator>().SetTrigger("UI_PopUp");
+        TouchManager.instance.isMyturn = true;
         if (curTurn > 0)
             MsgQueue.instance.Push_Message(DeckManager.instance.DrawCard);
+        turnImage.GetComponent<Animator>().SetTrigger("UI_PopUp");
         curTurn++;
     }
 
@@ -117,9 +116,9 @@ public class Player : MonoBehaviour
 
     public void EndPlayerTurnButton()
     {
-        if (TouchManager.instance.isMyTurn)
+        if (TouchManager.instance.isMyturn && !TouchManager.instance.isCasting)
         {
-            TouchManager.instance.isMyTurn = false;
+            TouchManager.instance.isMyturn = false;
             MsgQueue.instance.Push_Message(EndPlayerTurn);
         }
     }
@@ -156,6 +155,12 @@ public class Player : MonoBehaviour
         {
             StartCoroutine(_Talk(str));
         }
+    }
+
+    public void InitPlayer()
+    {
+        TouchManager.instance.isMyturn = true;
+        curTurn = 0;
     }
 
     public IEnumerator _WarningBattery()

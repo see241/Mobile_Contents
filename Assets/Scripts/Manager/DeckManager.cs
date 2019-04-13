@@ -15,7 +15,6 @@ public class DeckManager : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-        DrawCard(3);
     }
 
     // Update is called once per frame
@@ -46,11 +45,17 @@ public class DeckManager : MonoBehaviour
         }
     }
 
+    private void AddCard(GameObject go)
+    {
+        go.transform.parent = transform;
+        go.transform.position = transform.position;
+    }
+
     public void DrawCard(int v)
     {
         for (int i = 0; i < v - 1; i++)
         {
-            if (transform.GetChildCount() <= 1 || SortManager.instance.transform.GetChildCount() >= 8)
+            if (SortManager.instance.transform.GetChildCount() > 8)
             {
                 Player.instance.Talk("카드가 가득 찼어");
                 break;
@@ -72,6 +77,22 @@ public class DeckManager : MonoBehaviour
         else
         {
             Player.instance.Talk("덱에 카드가 부족해");
+        }
+    }
+
+    public void InitDeck()
+    {
+        CardBase[] cards = GameObject.Find("UsedCardPool").GetComponentsInChildren<CardBase>();
+        for (int i = 0; i < cards.Length; i++)
+        {
+            cards[i].transform.parent = gameObject.transform;
+            cards[i].transform.position = gameObject.transform.position;
+        }
+        CardBase[] _cards = SortManager.instance.gameObject.GetComponentsInChildren<CardBase>();
+        for (int i = 0; i < _cards.Length; i++)
+        {
+            _cards[i].transform.parent = gameObject.transform;
+            _cards[i].transform.position = gameObject.transform.position;
         }
     }
 

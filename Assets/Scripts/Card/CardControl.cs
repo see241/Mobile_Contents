@@ -13,10 +13,17 @@ public class CardControl : MonoBehaviour
     [HideInInspector]
     public int totalCard;
 
+    [HideInInspector]
+    public bool isHolding;
+
     private Animator animator;
 
     // Use this for initialization
     private void Start()
+    {
+    }
+
+    private void OnEnable()
     {
         animator = GetComponent<Animator>();
     }
@@ -32,11 +39,11 @@ public class CardControl : MonoBehaviour
         totalCard = total;
         if ((totalCard % 2) == 1)
         {
-            originPos = new Vector3(((totalCard / 2) - cardIndex) * 1.6f, -4.5f, -cardIndex);
+            originPos = new Vector3(((totalCard / 2) - cardIndex) * 1.6f, -5f, -cardIndex + 1);
         }
         if ((totalCard % 2) == 0)
         {
-            originPos = new Vector3((((totalCard / 2) - cardIndex) - 0.5f) * 1.6f, -4.5f, -cardIndex);
+            originPos = new Vector3((((totalCard / 2) - cardIndex) - 0.5f) * 1.6f, -5f, -cardIndex + 1);
         }
         StartCoroutine(MoveToOrigin());
     }
@@ -53,11 +60,15 @@ public class CardControl : MonoBehaviour
 
     private IEnumerator MoveToOrigin()
     {
-        for (int i = 0; i < 20; i++)
+        if (!isHolding)
         {
-            transform.position = Vector3.Lerp(transform.position, originPos, 0.5f);
-            yield return new WaitForSeconds(0.03f);
+            for (int i = 0; i < 20; i++)
+            {
+                transform.position = Vector3.Lerp(transform.position, originPos, 0.5f);
+                yield return new WaitForSeconds(0.03f);
+            }
+
+            transform.position = originPos;
         }
-        transform.position = originPos;
     }
 }

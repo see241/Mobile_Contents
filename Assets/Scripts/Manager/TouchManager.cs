@@ -5,9 +5,15 @@ public class TouchManager : MonoBehaviour
 {
     private GameObject touchTarget;
     private bool isTouching;
-    private bool isCasting;
-    public bool isMyTurn;
+
+    [HideInInspector]
+    public bool isCasting;
+
+    public bool isMyturn;
+    public float modifyY;
     public static TouchManager instance;
+
+    private Vector2 touchPosition;
 
     private void Awake()
     {
@@ -22,8 +28,11 @@ public class TouchManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (isMyTurn)
-            CardTouch();
+        if (GameManager.instance.eState == GameState.Dungeon)
+        {
+            if (isMyturn)
+                CardTouch();
+        }
     }
 
     private void CardTouch()
@@ -44,9 +53,10 @@ public class TouchManager : MonoBehaviour
                         if (touch.phase == TouchPhase.Began)
                         {
                             touchTarget = hit.transform.gameObject;
-
                             touchTarget.GetComponent<CardControl>().SetPhase("isPopUp", true);
-                            touchTarget.transform.position = new Vector3(touchTarget.transform.position.x, touchTarget.transform.position.y, -8);
+                            touchPosition = (Vector2)hit.point - (Vector2)touchTarget.transform.position;
+                            touchTarget.GetComponent<CardControl>().isHolding = true;
+                            touchTarget.transform.position = new Vector3(touchTarget.transform.position.x, touchTarget.transform.position.y, -9);
                         }
                     }
                 }
@@ -55,7 +65,7 @@ public class TouchManager : MonoBehaviour
                     if (touch.phase == TouchPhase.Moved)
                     {
                         Vector2 temp_pos = Camera.main.ScreenToWorldPoint(touch.position);
-                        touchTarget.transform.position = new Vector3(temp_pos.x, temp_pos.y, touchTarget.transform.position.z);
+                        touchTarget.transform.position = new Vector3(temp_pos.x, temp_pos.y, touchTarget.transform.position.z) - (Vector3)touchPosition;
                     }
                     if (touch.phase == TouchPhase.Ended)
                     {
@@ -96,12 +106,13 @@ public class TouchManager : MonoBehaviour
 
     private void CastCard()
     {
+        touchTarget.GetComponent<CardControl>().isHolding = false;
         if (touchTarget.transform.position.y > 0)
         {
             if (!touchTarget.GetComponent<CardBase>().isAllAttack)
             {
                 GuideText.instance.Guide("Select_Target ");
-                touchTarget.transform.position = Vector2.zero;
+                touchTarget.transform.position = new Vector3(0, 0, -9);
                 isCasting = true;
             }
             else
@@ -127,6 +138,7 @@ public class TouchManager : MonoBehaviour
             isTouching = false;
             touchTarget.GetComponent<CardControl>().ReturnOrigin();
             touchTarget.GetComponent<CardControl>().SetPhase("isPopUp", false);
+            touchTarget.GetComponent<CardControl>().isHolding = false;
             touchTarget = null;
             GuideText.instance.DeleteText();
         }
